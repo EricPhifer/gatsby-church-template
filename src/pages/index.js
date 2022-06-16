@@ -1,184 +1,1278 @@
-import * as React from "react"
+import React from 'react';
+import { graphql, Link } from 'gatsby';
+import SanityImage from 'gatsby-plugin-sanity-image';
+import styled from 'styled-components';
+import SEO from '../components/SEO';
+import { HiOutlineArrowNarrowRight } from 'react-icons/hi';
 
-// styles
-const pageStyles = {
-  color: "#232129",
-  padding: 96,
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-}
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-}
-const headingAccentStyles = {
-  color: "#663399",
-}
-const paragraphStyles = {
-  marginBottom: 48,
-}
-const codeStyles = {
-  color: "#8A6534",
-  padding: 4,
-  backgroundColor: "#FFF4DB",
-  fontSize: "1.25rem",
-  borderRadius: 4,
-}
-const listStyles = {
-  marginBottom: 96,
-  paddingLeft: 0,
-}
-const listItemStyles = {
-  fontWeight: 300,
-  fontSize: 24,
-  maxWidth: 560,
-  marginBottom: 30,
-}
+const HeroStyles = styled.div`
+  padding-top: 18rem;
+  .hero {
+    position: relative;
+    max-width: 1080px;
+    margin: 0 auto;
+    .upper {
+      text-transform: uppercase;
+    }
+  }
+  .upperContent {
+    width: 100%;
+    height: 50.3rem;
+    display: inline-flex;
+    .mainimg { 
+      height: 62rem;
+    }
+    .sideTexture {
+      display: flex;
+      align-items: end;
+      position: relative;
+      .texture {
+        height: 50.4rem
+      }
+      .solutions {
+        height: 7rem;
+        position: absolute;
+        bottom: 11rem;
+        padding: 0 0.4rem;
+        z-index: 1;
+      }
+    }
+  }
+  .textBox {
+    width: 25%;
+    height: 22rem;
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+    background-color: var(--black);
+    bottom: 8rem;
+    right: 0;
+    padding: 0.5rem 3rem;
+    p {
+      margin: 0;
+      color: var(--white);
+      font-size: 2rem;
+      line-height: 2;
+    }
+    a {
+      display: flex;
+      place-items: center center;
+      place-content: center center;
+      padding: 1rem;
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: bold;
+      width: 11.5rem;
+      margin-left: 9rem;
+      background-color: var(--blue);
+      border-right: 4px double var(--green);
+      border-bottom: 2px double var(--green);
+      &:hover {
+        background-color: var(--white);
+        color: var(--blue);
+        border-right: 4px double var(--blue);
+        border-bottom: 2px double var(--blue);
+      }
+      .arrowRight {
+        font-size: 2rem;
+        color: var(--green);
+      }
+    }
+  }
+  .lowerContent {
+    width: 100%;
+    height: 12.7rem;
+    display: inline-flex;
+    .taglineContainer {
+      width: 50%;
+      display: flex;
+      justify-content: end;
+      .tagline {
+        max-width: 260px;
+        margin: 0;
+        font-size: 3rem;
+      }
+    }
+    .contactContainer {
+      width: 50%;
+      position: relative;
+      display: flex;
+      place-content: center center;
+      place-items: center center;
+      .lowerLogo {
+        width: 75%;
+        height: 11rem;
+        position: absolute;
+        right: 0;
+        bottom: 2rem;
+        opacity: 0.2;
+      }
+      .phone {
+        margin-top: 6rem;
+        font-weight: bold;
+        position: static;
+        z-index: 4;
+        &:hover {
+          color: var(--blue);
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 900px) {
+    padding-top: 3rem;
+  }
+  @media only screen and (max-width: 501px) {
+    padding-top: 1rem;
+  }
 
-const linkStyle = {
-  color: "#8954A8",
-  fontWeight: "bold",
-  fontSize: 16,
-  verticalAlign: "5%",
-}
+  /* Hide menu on small screens */
+  @media only screen and (max-width: 1080px) {
+    display: none;
+  }
 
-const docLinkStyle = {
-  ...linkStyle,
-  listStyleType: "none",
-  marginBottom: 24,
-}
+  /* ----------- iPhone 12/13+ Pro Max ----------- */
 
-const descriptionStyle = {
-  color: "#232129",
-  fontSize: 14,
-  marginTop: 10,
-  marginBottom: 0,
-  lineHeight: 1.25,
-}
+  /* Portrait and Landscape */
+  @media only screen 
+    and (min-device-width: 428px) 
+    and (max-device-width: 926px) 
+    and (-webkit-min-device-pixel-ratio: 3) { 
 
-const docLink = {
-  text: "Documentation",
-  url: "https://www.gatsbyjs.com/docs/",
-  color: "#8954A8",
-}
+    }
 
-const badgeStyle = {
-  color: "#fff",
-  backgroundColor: "#088413",
-  border: "1px solid #088413",
-  fontSize: 11,
-  fontWeight: "bold",
-  letterSpacing: 1,
-  borderRadius: 4,
-  padding: "4px 6px",
-  display: "inline-block",
-  position: "relative",
-  top: -2,
-  marginLeft: 10,
-  lineHeight: 1,
-}
+  /* Portrait */
+  @media only screen 
+    and (min-device-width: 428px) 
+    and (max-device-width: 926px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: portrait) {
+      
+    }
 
-// data
-const links = [
-  {
-    text: "Tutorial",
-    url: "https://www.gatsbyjs.com/docs/tutorial/",
-    description:
-      "A great place to get started if you're new to web development. Designed to guide you through setting up your first Gatsby site.",
-    color: "#E95800",
-  },
-  {
-    text: "How to Guides",
-    url: "https://www.gatsbyjs.com/docs/how-to/",
-    description:
-      "Practical step-by-step guides to help you achieve a specific goal. Most useful when you're trying to get something done.",
-    color: "#1099A8",
-  },
-  {
-    text: "Reference Guides",
-    url: "https://www.gatsbyjs.com/docs/reference/",
-    description:
-      "Nitty-gritty technical descriptions of how Gatsby works. Most useful when you need detailed information about Gatsby's APIs.",
-    color: "#BC027F",
-  },
-  {
-    text: "Conceptual Guides",
-    url: "https://www.gatsbyjs.com/docs/conceptual/",
-    description:
-      "Big-picture explanations of higher-level Gatsby concepts. Most useful for building understanding of a particular topic.",
-    color: "#0D96F2",
-  },
-  {
-    text: "Plugin Library",
-    url: "https://www.gatsbyjs.com/plugins",
-    description:
-      "Add functionality and customize your Gatsby site or app with thousands of plugins built by our amazing developer community.",
-    color: "#8EB814",
-  },
-  {
-    text: "Build and Host",
-    url: "https://www.gatsbyjs.com/cloud",
-    badge: true,
-    description:
-      "Now you’re ready to show the world! Give your Gatsby site superpowers: Build and host on Gatsby Cloud. Get started for free!",
-    color: "#663399",
-  },
-]
+  /* Landscape */
+  @media only screen 
+    and (min-device-width: 428px) 
+    and (max-device-width: 926px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: landscape) {
+      .upperContent {
+        .mainimg {
+          height: 120vmin;
+        }
+        .texture {
+          height: 100%;
+        }
+      }
+    } 
+`;
 
-// markup
-const IndexPage = () => {
+const TabletHeroStyles = styled.div`
+  /* Show compressed menu on small screens */
+  @media only screen and (min-width: 1081px) {
+    display: none;
+  }
+  @media only screen and (max-width: 500px) {
+    display: none;
+  }
+  padding-top: 16rem;
+  .hero {
+    position: relative;
+    .upper {
+      text-transform: uppercase;
+    }
+  }
+  .upperContent {
+    width: 100%;
+    display: inline-flex;
+    .mainimg { 
+      @media only screen and (min-width: 501px) {
+        height: 72vmin;
+      }
+      @media only screen and (min-width: 814px) {
+        height: 75vmin;
+      }
+      @media only screen and (min-width: 838px) {
+        height: 80vmin;
+      }
+      @media only screen and (min-width: 901px) {
+        height: 66vmin;
+      }
+      @media only screen and (min-width: 1018px) {
+        height: 72vmin;
+      }
+    }
+    .sideTexture {
+      position: relative;
+      display: flex;
+      align-items: start;
+      justify-content: center;
+      .texture {
+        height: 66vmin;
+      }
+      .solutions {
+        height: 7rem;
+        position: absolute;
+        z-index: 1;
+        margin-bottom: 11rem;
+        @media only screen and (min-width: 900px) {
+          height: 7vmin;
+        }
+        @media only screen and (min-width: 960px) {
+          height: 8vmin;
+        }
+      }
+      @media only screen and (max-width: 900px) {
+        display: none;
+      }
+    }
+    @media only screen and (min-width: 575px) {
+      height: 40rem;
+    }
+    @media only screen and (min-width: 625px) {
+      height: 45rem;
+    }
+    @media only screen and (min-width: 675px) {
+      height: 50rem;
+    }
+    @media only screen and (min-width: 725px) {
+      height: 55rem;
+    }
+    @media only screen and (min-width: 775px) {
+      height: 60rem;
+    }
+    @media only screen and (min-width: 825px) {
+      height: 62rem;
+    }
+  }
+  .textBox {
+    width: 42%;
+    height: 17rem;
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+    background-color: var(--black);
+    bottom: 6rem;
+    right: 0;
+    padding: 1rem 2rem;
+    p {
+      margin: 0;
+      color: var(--white);
+      font-size: 1.6rem;
+      line-height: 2;
+    }
+    a {
+      display: flex;
+      align-items: center;
+      jusify-content: center;
+      padding: 0.7rem;
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: bold;
+      width: 9rem;
+      margin-left: 7rem;
+      background-color: var(--blue);
+      border-right: 4px double var(--green);
+      border-bottom: 2px double var(--green);
+      &:hover {
+        background-color: var(--white);
+        color: var(--blue);
+        border-right: 4px double var(--blue);
+        border-bottom: 2px double var(--blue);
+      }
+      .arrowRight {
+        font-size: 2rem;
+        color: var(--green);
+      }
+    }
+  }
+  .lowerContent {
+    width: 100%;
+    height: 6.7rem;
+    display: inline-flex;
+    .taglineContainer {
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .tagline {
+        max-width: 200px;
+        margin-left: 1rem;
+        font-size: 2rem;
+      }
+    }
+    .contactContainer {
+      width: 50%;
+      position: relative;
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      padding: 3rem 7rem 2rem 0;
+      .lowerLogo {
+        width: 75%;
+        height: 11rem;
+        position: absolute;
+        right: 0;
+        bottom: 2rem;
+        opacity: 0.2;
+        @media only screen and (max-width: 900px) {
+          display: none;
+        }
+      }
+      .phone {
+        font-weight: bold;
+        font-size: 2rem;
+        &:hover {
+          color: var(--blue);
+        }
+        @media only screen and (min-width: 700px) {
+          font-size: 1.75rem;
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 600px) {
+    .upperContent {
+      height: 42rem;
+    }
+  }
+  @media only screen and (min-width: 901px) {
+    .upperContent {
+      height: 50rem;
+      .sideTexture {
+        .solutions {
+          width: 95%;
+          bottom: 5rem;
+        }
+      }
+    }
+    .textBox {
+      width: 25%;
+      bottom: 10rem;
+      a {
+        position: static;
+        z-index: 2;
+      }
+    }
+    .lowerContent {
+      height: 16rem;
+      .taglineContainer {
+        justify-content: end;
+        align-items: start;
+      }
+      .contactContainer {
+        justify-content: center;
+        .lowerLogo {
+          width: 85%;
+          bottom: 4rem;
+        }
+        .phone {
+          position: static;
+          z-index: 2;
+        }
+      }
+    }
+  }
+  /* ----------- iPhone 4 and 4S ----------- */
+
+  /* Portrait and Landscape */
+  @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 480px)
+    and (-webkit-min-device-pixel-ratio: 2) {
+      
+    }
+
+  /* Portrait */
+  @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 480px)
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: portrait) {
+    
+    }
+
+  /* Landscape */
+  @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 480px)
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: landscape) {
+      
+    }
+
+  /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+
+  /* Portrait and Landscape */
+  @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 568px)
+    and (-webkit-min-device-pixel-ratio: 2) {
+      
+    }
+
+  /* Portrait */
+  @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 568px)
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: portrait) {
+     
+    }
+
+  /* Landscape */
+  @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 568px)
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: landscape) {
+      
+    }
+
+  /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+
+  /* Portrait and Landscape */
+  @media only screen 
+    and (min-device-width: 375px) 
+    and (max-device-width: 667px) 
+    and (-webkit-min-device-pixel-ratio: 2) { 
+      
+    }
+
+  /* Portrait */
+  @media only screen 
+    and (min-device-width: 375px) 
+    and (max-device-width: 667px) 
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: portrait) {
+      
+    }
+
+  /* Landscape */
+  @media only screen 
+    and (min-device-width: 375px) 
+    and (max-device-width: 667px) 
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: landscape) {
+      .upperContent {
+        .mainimg {
+          height: 128vmin;
+        }
+      }
+    }
+
+  /* ----------- iPhone 6+, 7+ and 8+ ----------- */
+
+  /* Portrait and Landscape */
+  @media only screen 
+    and (min-device-width: 414px) 
+    and (max-device-width: 736px) 
+    and (-webkit-min-device-pixel-ratio: 3) { 
+
+    }
+
+  /* Portrait */
+  @media only screen 
+    and (min-device-width: 414px) 
+    and (max-device-width: 736px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: portrait) {
+      
+    }
+
+  /* Landscape */
+  @media only screen 
+    and (min-device-width: 414px) 
+    and (max-device-width: 736px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: landscape) {
+       
+    }
+
+  /* ----------- iPhone X ----------- */
+
+  /* Portrait and Landscape */
+  @media only screen 
+    and (min-device-width: 375px) 
+    and (max-device-width: 812px) 
+    and (-webkit-min-device-pixel-ratio: 3) { 
+
+    }
+
+  /* Portrait */
+  @media only screen 
+    and (min-device-width: 375px) 
+    and (max-device-width: 812px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: portrait) {
+      
+    }
+
+  /* Landscape */
+  @media only screen 
+    and (min-device-width: 375px) 
+    and (max-device-width: 812px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: landscape) {
+      .upperContent {
+        .mainimg {
+          height: 100%;
+        }
+      }
+    } 
+
+  /* ----------- iPhone 11 Pro ----------- */
+
+  /* Portrait and Landscape */
+  @media only screen 
+    and (min-device-width: 414px) 
+    and (max-device-width: 896px) 
+    and (-webkit-min-device-pixel-ratio: 3) { 
+
+    }
+
+  /* Portrait */
+  @media only screen 
+    and (min-device-width: 414px) 
+    and (max-device-width: 896px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: portrait) {
+      
+    }
+
+  /* Landscape */
+  @media only screen 
+    and (min-device-width: 414px) 
+    and (max-device-width: 896px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: landscape) {
+      .upperContent {
+        .mainimg {
+          height: 164vmin;
+        }
+      }
+    } 
+
+  /* ----------- iPhone 12/13+ Pro ----------- */
+
+  /* Portrait and Landscape */
+  @media only screen 
+    and (min-device-width: 390px) 
+    and (max-device-width: 844px) 
+    and (-webkit-min-device-pixel-ratio: 3) { 
+
+    }
+
+  /* Portrait */
+  @media only screen 
+    and (min-device-width: 390px) 
+    and (max-device-width: 844px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: portrait) {
+      
+    }
+
+  /* Landscape */
+  @media only screen 
+    and (min-device-width: 390px) 
+    and (max-device-width: 844px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: landscape) {
+      
+    } 
+  /* ----------- iPhone 12/13+ Pro Max ----------- */
+
+  /* Portrait and Landscape */
+  @media only screen 
+    and (min-device-width: 428px) 
+    and (max-device-width: 926px) 
+    and (-webkit-min-device-pixel-ratio: 3) { 
+
+    }
+
+  /* Portrait */
+  @media only screen 
+    and (min-device-width: 428px) 
+    and (max-device-width: 926px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: portrait) {
+      
+    }
+
+  /* Landscape */
+  @media only screen 
+    and (min-device-width: 428px) 
+    and (max-device-width: 926px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: landscape) {
+      .upperContent {
+        .mainimg {
+          height: 120vmin;
+        }
+        .texture {
+          height: 100% !important;
+        }
+        .solutions {
+          height: 15vmin !important;
+        }
+      }
+    } 
+`;
+
+const MobileHeroStyles = styled.div`
+  /* Show compressed menu on small screens */
+  @media only screen and (min-width: 501px) {
+    display: none;
+  }
+  padding-top: 13rem;
+  .hero {
+    position: relative;
+    .upper {
+      text-transform: uppercase;
+    }
+  }
+  .upperContent {
+    width: 100%;
+    height: 20rem;
+    display: inline-flex;
+    .mainimg { 
+      width: 100%;
+      height: 70vmin;
+    }
+    @media only screen and (max-width: 424px) {
+      height: 26rem;
+    }
+    @media only screen and (min-width: 425px) {
+      height: 32rem;
+    }
+    @media only screen and (min-width: 500px) {
+      height: 35rem;
+    }
+  }
+  .textBox {
+    width: 50%;
+    height: 14rem;
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+    background-color: var(--black);
+    bottom: 6rem;
+    right: 0;
+    padding: 1rem 2rem;
+    @media only screen and (max-width: 355px) {
+      width: 55%;
+      height: 14rem;
+    }
+    @media only screen and (max-width: 323px) {
+      width: 65%;
+    }
+    p {
+      margin: 0;
+      color: var(--white);
+      font-size: 1.35rem;
+      line-height: 2;
+    }
+    a {
+      display: flex;
+      align-items: center;
+      jusify-content: center;
+      padding: 0.7rem;
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: bold;
+      width: 8.5rem;
+      margin: 1rem 10rem;
+      background-color: var(--blue);
+      border-right: 2px double var(--green);
+      border-bottom: 1px double var(--green);
+      &:hover {
+        background-color: var(--white);
+        color: var(--blue);
+        border-right: 2px double var(--blue);
+        border-bottom: 1px double var(--blue);
+      }
+      .arrowRight {
+        font-size: 1.5rem;
+        color: var(--green);
+      }
+    }
+  }
+  .lowerContent {
+    width: 100%;
+    height: 6.7rem;
+    display: inline-flex;
+    padding-top: 5rem;
+    .taglineContainer {
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .tagline {
+        max-width: 200px;
+        margin: 0;
+        align-self: end;
+        font-size: 1.5rem;
+        margin: 0 0 2rem 0.5rem;
+        @media only screen and (min-width: 311px) {
+          max-width: 130px;
+        }
+      }
+    }
+    .contactContainer {
+      width: 50%;
+      position: relative;
+      display: flex;
+      justify-content: end;
+      align-items: end;
+      padding: 0 5rem 2rem 0;
+      }
+      .phone {
+        font-weight: bold;
+        font-size: 1.5rem;
+        &:hover {
+          color: var(--blue);
+        }
+      }
+    }
+  }
+  /* ----------- iPhone 4 and 4S ----------- */
+
+  /* Portrait and Landscape */
+  @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 480px)
+    and (-webkit-min-device-pixel-ratio: 2) {
+      
+    }
+
+  /* Portrait */
+  @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 480px)
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: portrait) {
+      
+    }
+
+  /* Landscape */
+  @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 480px)
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: landscape) {
+      
+    }
+
+  /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+
+  /* Portrait and Landscape */
+  @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 568px)
+    and (-webkit-min-device-pixel-ratio: 2) {
+      
+    }
+
+  /* Portrait */
+  @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 568px)
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: portrait) {
+      
+    }
+
+  /* Landscape */
+  @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 568px)
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: landscape) {
+      
+    }
+
+  /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+
+  /* Portrait and Landscape */
+  @media only screen 
+    and (min-device-width: 375px) 
+    and (max-device-width: 667px) 
+    and (-webkit-min-device-pixel-ratio: 2) { 
+     
+    }
+
+  /* Portrait */
+  @media only screen 
+    and (min-device-width: 375px) 
+    and (max-device-width: 667px) 
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: portrait) {
+       
+    }
+
+  /* Landscape */
+  @media only screen 
+    and (min-device-width: 375px) 
+    and (max-device-width: 667px) 
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: landscape) {
+      
+    }
+
+  /* ----------- iPhone 6+, 7+ and 8+ ----------- */
+
+  /* Portrait and Landscape */
+  @media only screen 
+    and (min-device-width: 414px) 
+    and (max-device-width: 736px) 
+    and (-webkit-min-device-pixel-ratio: 3) { 
+
+    }
+
+  /* Portrait */
+  @media only screen 
+    and (min-device-width: 414px) 
+    and (max-device-width: 736px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: portrait) {
+       
+    }
+
+  /* Landscape */
+  @media only screen 
+    and (min-device-width: 414px) 
+    and (max-device-width: 736px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: landscape) {
+       
+    }
+
+  /* ----------- iPhone X ----------- */
+
+  /* Portrait and Landscape */
+  @media only screen 
+    and (min-device-width: 375px) 
+    and (max-device-width: 812px) 
+    and (-webkit-min-device-pixel-ratio: 3) { 
+
+    }
+
+  /* Portrait */
+  @media only screen 
+    and (min-device-width: 375px) 
+    and (max-device-width: 812px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: portrait) {
+       
+    }
+
+  /* Landscape */
+  @media only screen 
+    and (min-device-width: 375px) 
+    and (max-device-width: 812px) 
+    and (-webkit-min-device-pixel-ratio: 3)
+    and (orientation: landscape) {
+      
+    } 
+`;
+
+const PartnerStyles = styled.div`
+  max-width: 1080px;
+  margin: 0 auto;
+  text-align: center;
+  .headerBackdrop {
+    width: 100%;
+    height: 7rem;
+    background-color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    h3 {
+      color: var(--white);
+    }
+  }
+  .logoGrid {
+    margin: 0 5rem;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(auto, 1fr));
+    gap: 5rem;
+    img {
+      max-width: 200px;
+    }
+  }
+  /* Hide menu on small screens */
+  @media only screen and (max-width: 1080px) {
+    display: none;
+  }
+`;
+
+const TabletPartnerStyles = styled.div`
+  /* Show compressed menu on small screens */
+  @media only screen and (min-width: 1081px) {
+    display: none;
+  }
+  @media only screen and (max-width: 500px) {
+    display: none;
+  }
+  text-align: center;
+  .headerBackdrop {
+    width: 100%;
+    height: 7rem;
+    background-color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    h3 {
+      color: var(--white);
+    }
+  }
+  .logoGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(auto, 1fr));
+    gap: 5rem;
+    img {
+      max-width: 200px;
+    }
+    @media only screen and (min-width: 800px) and (max-width: 1081px) {
+      grid-template-columns: repeat(3, minmax(auto, 1fr));
+    }
+  }
+`;
+
+const MobilePartnerStyles = styled.div`
+  /* Show compressed menu on small screens */
+  @media only screen and (min-width: 501px) {
+    display: none;
+  }
+  text-align: center;
+  .headerBackdrop {
+    width: 100%;
+    height: 7rem;
+    background-color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    h3 {
+      color: var(--white);
+    }
+  }
+  .logoGrid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(auto, 1fr));
+    gap: 2rem;
+    img {
+      max-width: 200px;
+    }
+  }
+`;
+
+export default function HomePage({ data }) {
+  const logolist = data.logolist.nodes;
+  const heroes = data.heroes.nodes;
+  const cta = data.cta.nodes;
   return (
-    <main style={pageStyles}>
-      <title>Home Page</title>
-      <h1 style={headingStyles}>
-        Congratulations
-        <br />
-        <span style={headingAccentStyles}>— you just made a Gatsby site! </span>
-        <span role="img" aria-label="Party popper emojis">
-          🎉🎉🎉
-        </span>
-      </h1>
-      <p style={paragraphStyles}>
-        Edit <code style={codeStyles}>src/pages/index.js</code> to see this page
-        update in real-time.{" "}
-        <span role="img" aria-label="Sunglasses smiley emoji">
-          😎
-        </span>
-      </p>
-      <ul style={listStyles}>
-        <li style={docLinkStyle}>
-          <a
-            style={linkStyle}
-            href={`${docLink.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
-          >
-            {docLink.text}
-          </a>
-        </li>
-        {links.map(link => (
-          <li key={link.url} style={{ ...listItemStyles, color: link.color }}>
-            <span>
-              <a
-                style={linkStyle}
-                href={`${link.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
-              >
-                {link.text}
-              </a>
-              {link.badge && (
-                <span style={badgeStyle} aria-label="New Badge">
-                  NEW!
-                </span>
-              )}
-              <p style={descriptionStyle}>{link.description}</p>
-            </span>
-          </li>
-        ))}
-      </ul>
-      <img
-        alt="Gatsby G Logo"
-        src="data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2a10 10 0 110 20 10 10 0 010-20zm0 2c-3.73 0-6.86 2.55-7.75 6L14 19.75c3.45-.89 6-4.02 6-7.75h-5.25v1.5h3.45a6.37 6.37 0 01-3.89 4.44L6.06 9.69C7 7.31 9.3 5.63 12 5.63c2.13 0 4 1.04 5.18 2.65l1.23-1.06A7.959 7.959 0 0012 4zm-8 8a8 8 0 008 8c.04 0 .09 0-8-8z' fill='%23639'/%3E%3C/svg%3E"
-      />
-    </main>
-  )
+    <>
+      <SEO title="Home Page" />
+          <HeroStyles>
+            {heroes.map((hero) => (
+            <div className="hero" key={hero.id}>
+              <div className="upperContent">
+                <SanityImage
+                  {...hero.mainimage}
+                  alt={hero.mainalt}
+                  className="mainimg"
+                  styles={{
+                    objectFit: 'cover',
+                    auto: 'format',
+                  }}
+                />
+                <div className="sideTexture">
+                  <SanityImage 
+                    {...hero.bgimage}
+                    alt={hero.bgalt}
+                    className="texture"
+                    styles={{
+                      objectFit: 'cover',
+                      auto: 'format',
+                    }}
+                    />
+                  <SanityImage 
+                    {...hero.textimage}
+                    alt={hero.textalt}
+                    className="solutions"
+                    styles={{
+                      objectFit: 'cover',
+                      auto: 'format',
+                    }}
+                    />
+                </div>
+              </div>
+            {cta.map((call) => (
+              <div className="nodeParser" key={call.id}>
+                <div className="textBox">
+                  <p>Taking the worry out <br /> 
+                  of complex insurance issues<br /> 
+                  for both <span className="upper">businesses</span><br /> 
+                  and <span className="upper">individuals</span>
+                  </p>
+                  <div className="buttonesque">
+                    <Link to="/contact" className="upper">
+                      {call.cta}  <HiOutlineArrowNarrowRight className="arrowRight"/>
+                    </Link>
+                  </div>
+                </div>
+                <div className="lowerContent">
+                  <div className="taglineContainer">
+                    <p className="tagline upper">{call.tagline} </p>
+                  </div>
+                  <div className="contactContainer">
+                    <SanityImage 
+                      {...hero.secondlogo}
+                      alt={hero.secondalt}
+                      className="lowerLogo"
+                      style={{
+                        objectFit: 'cover',
+                        auto: 'format',
+                      }}
+                    />
+                    <a href={`tel:${call.phone}`} className="phone">{call.phone}</a>
+                  </div>
+                </div>
+              </div>
+            ))}
+            </div>
+          ))}
+          </HeroStyles>
+          <TabletHeroStyles>
+          {heroes.map((hero) => (
+            <div className="hero" key={hero.id}>
+              <div className="upperContent">
+                <SanityImage
+                  {...hero.mainimage}
+                  alt={hero.mainalt}
+                  className="mainimg"
+                  styles={{
+                    objectFit: 'cover',
+                    auto: 'format',
+                  }}
+                />
+                <div className="sideTexture">
+                  <SanityImage 
+                    {...hero.bgimage}
+                    alt={hero.bgalt}
+                    className="texture"
+                    styles={{
+                      objectFit: 'cover',
+                      auto: 'format',
+                    }}
+                  />
+                  <SanityImage 
+                    {...hero.textimage}
+                    alt={hero.textalt}
+                    className="solutions"
+                    styles={{
+                      objectFit: 'cover',
+                      auto: 'format',
+                    }}
+                  />
+                </div>
+              </div>
+              {cta.map((call) => (
+                <div className="nodeParser" key={call.id}>
+                  <div className="textBox">
+                    <p>Taking the worry out <br /> 
+                    of complex insurance issues<br /> 
+                    for both <span className="upper">businesses</span><br /> 
+                    and <span className="upper">individuals</span>
+                    </p>
+                    <Link to="/contact" className="upper">
+                      {call.cta}  <HiOutlineArrowNarrowRight className="arrowRight"/>
+                    </Link>
+                  </div>
+                  <div className="lowerContent">
+                    <div className="taglineContainer">
+                      <p className="tagline upper">{call.tagline} </p>
+                    </div>
+                    <div className="contactContainer">
+                      <SanityImage 
+                        {...hero.secondlogo}
+                        alt={hero.secondalt}
+                        className="lowerLogo"
+                        style={{
+                          objectFit: 'cover',
+                          auto: 'format',
+                        }}
+                      />
+                      <a 
+                      href={`tel:${call.phone}`} 
+                      className="phone"
+                      >
+                        {call.phone}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </TabletHeroStyles>
+        <MobileHeroStyles>
+          {heroes.map((hero) => (
+            <div className="hero" key={hero.id}>
+              <div className="upperContent">
+                <SanityImage
+                  {...hero.mainimage}
+                  alt={hero.mainalt}
+                  className="mainimg"
+                  styles={{
+                    objectFit: 'cover',
+                    auto: 'format',
+                  }}
+                />
+              </div>
+              {cta.map((call) => (
+                <div key={call.id}>
+                  <div className="textBox">
+                    <p>Taking the worry out <br /> 
+                    of complex insurance issues<br /> 
+                    for both <span className="upper">businesses</span><br /> 
+                    and <span className="upper">individuals</span>
+                    </p>
+                    <Link to="/contact" className="upper">
+                      {call.cta}  <HiOutlineArrowNarrowRight className="arrowRight"/>
+                    </Link>
+                  </div>
+                  <div className="lowerContent">
+                    <div className="taglineContainer">
+                      <p className="tagline upper">
+                        {call.tagline} 
+                      </p>
+                    </div>
+                    <div className="contactContainer">
+                      <a href={`tel:${call.phone}`} className="phone">{call.phone}</a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </MobileHeroStyles>
+        <PartnerStyles>
+          <div className="headerBackdrop">
+            <h3>Our Partners</h3>
+          </div>
+          <div className="logoGrid">
+            {logolist.map((logo) => (
+              <div className="logoContainer" key={logo.id}>
+                <SanityImage 
+                {...logo.logoimage}
+                alt={logo.altTitle}
+                style={{
+                  objectFit: 'cover',
+                  auto: 'format',
+                }}
+                />
+              </div>
+            ))}
+          </div>
+        </PartnerStyles>
+        <TabletPartnerStyles>
+          <div className="headerBackdrop">
+            <h3>Our Partners</h3>
+          </div>
+          <div className="logoGrid">
+            {logolist.map((logo) => (
+              <div className="logoContainer" key={logo.id}>
+                <SanityImage 
+                {...logo.logoimage}
+                alt={logo.altTitle}
+                style={{
+                  objectFit: 'cover',
+                  auto: 'format',
+                }}
+                />
+              </div>
+            ))}
+          </div>
+        </TabletPartnerStyles>
+        <MobilePartnerStyles>
+          <div className="headerBackdrop">
+            <h3>Our Partners</h3>
+          </div>
+          <div className="logoGrid">
+            {logolist.map((logo) => (
+              <div className="logoContainer" key={logo.id}>
+                <SanityImage 
+                {...logo.logoimage}
+                alt={logo.altTitle}
+                style={{
+                  objectFit: 'cover',
+                  auto: 'format',
+                }}
+                />
+              </div>
+            ))}
+          </div>
+        </MobilePartnerStyles>
+    </>
+  );
 }
+export const query = graphql`
+  query {
+    heroes: allSanityHomepageHero {
+      nodes {
+        mainalt
+        bgalt
+        secondalt
+        textalt
+        bgimage {
+          ...ImageWithPreview
+          asset {
+            id
+          }
+        }
+        mainimage {
+          ...ImageWithPreview
+          asset {
+            id
+          }
+        }
+        secondlogo {
+          ...ImageWithPreview
+          asset {
+            id
+          }
+        }
+        textimage {
+          ...ImageWithPreview
+          asset {
+            id
+          }
+        }
+        title
+        id
+      }
+    }
+    logolist: allSanityHomepageLogo {
+      nodes {
+        id
+        altTitle
+        logoimage {
+          ...ImageWithPreview
+          asset {
+            id
+          }
+        }
+      }
+    }
+    cta: allSanityContactInfo {
+      nodes {
+        tagline
+        phone
+        id
+        cta
+      }
+    }
+  }
+`;
 
-export default IndexPage
+// Credit to https://css-tricks.com/snippets/css/media-queries-for-standard-devices/ for responsive design template
