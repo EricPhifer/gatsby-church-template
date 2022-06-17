@@ -1,8 +1,6 @@
 import React from 'react';
-import { graphql, Link } from 'gatsby';
-import SanityImage from 'gatsby-plugin-sanity-image';
+import { graphql } from 'gatsby';
 import styled from 'styled-components';
-import {HiOutlineArrowNarrowRight} from 'react-icons/hi';
 import SEO from '../components/SEO';
 
 const ServiceStyles = styled.div`
@@ -33,7 +31,7 @@ const ServiceStyles = styled.div`
       margin-left: 5rem;
     }
   }
-  .serviceContainer {
+  .sermonContainer {
     width: 100%;
   }
   .mainimg {
@@ -119,7 +117,7 @@ const ServiceStyles = styled.div`
   }
 `;
 
-const TabletServiceStyles = styled.div`
+const TabletSermonStyles = styled.div`
   /* Show compressed menu on small screens */
   @media only screen and (min-width: 1081px) {
     display: none;
@@ -173,7 +171,7 @@ const TabletServiceStyles = styled.div`
       }
     }
   }
-  .serviceContainer {
+  .sermonContainer {
     width: 100%;
   }
   .mainimg {
@@ -189,7 +187,7 @@ const TabletServiceStyles = styled.div`
     height: 10rem;
     margin: 2rem 0;
   }
-  .serviceContainer {
+  .sermonContainer {
     padding: 3rem 1rem 0;
   }
   .serviceCard {
@@ -275,7 +273,7 @@ const TabletServiceStyles = styled.div`
   }
 `;
 
-const MobileServiceStyles = styled.div`
+const MobileSermonStyles = styled.div`
   /* Show compressed menu on small screens */
   @media only screen and (min-width: 501px) {
     display: none;
@@ -304,7 +302,7 @@ const MobileServiceStyles = styled.div`
   #Medicare {
     display: none;
   }
-  .serviceContainer {
+  .sermonContainer {
     width: 100%;
   }
   .mainimg {
@@ -317,7 +315,7 @@ const MobileServiceStyles = styled.div`
     height: 5rem;
     margin: 2rem 0;
   }
-  .serviceContainer {
+  .sermonContainer {
     padding: 3rem 1rem 0;
   }
   .serviceCard {
@@ -389,265 +387,55 @@ const MobileServiceStyles = styled.div`
 `;
 
 export default function ServicePage({ data }) {
-  const services = data.services.nodes;
-  const plans = data.plans.nodes;
-  const cta = data.cta.nodes;
+  // const sermons = data.sermons.nodes;
+  // const guestsermons = data.guestsermons.nodes;
   return (
     <>
-      <SEO title="Insurance Services" />
+      <SEO title="Sermons" />
       <ServiceStyles>
-        <div className="serviceContainer inline">
-          <div className="left flex">
-            {services.map((service) => (
-              <div className="head flex" key={service.id}>
-                <h1>{service.title}</h1>
-              </div>
-            ))}
-            {plans.map((plan) => (
-              <div 
-                className="serviceCard inline" 
-                id={plan.title}
-                key={plan.id}
-              >
-                <div className="dotContainer">
-                  <div className="dot" />
-                </div>
-                <div className="serviceInfo flex">
-                  <Link to={`/plans#${plan.slug.current}`}>
-                    <h2>{plan.title}</h2>
-                  </Link>
-                  <p>
-                    {plan.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="right flex">
-            {services.map((service) => (
-              <span key={service.id}>
-                  <SanityImage 
-                    {...service.mainimage}
-                    alt={service.mainalt}
-                    className="mainimg"
-                    style={{
-                      objectFit: 'cover',
-                      auto: 'format',
-                    }}
-                    />
-                  <SanityImage 
-                    {...service.textimage}
-                    alt={service.textalt}
-                    className="textImg"
-                    style={{
-                      objectFit: 'cover',
-                      auto: 'format',
-                    }}
-                    />
-                </span>
-              ))}
-            {cta.map((call) => (
-              <div className="contact flex" key={call.id}>
-                <p className="tagline upper">
-                  {call.tagline}
-                </p>
-                <Link to="/contact" className="buttonesque upper">
-                  {call.cta}  <HiOutlineArrowNarrowRight className="arrowRight"/>
-                </Link>
-                <a href={`tel:${call.phone}`} className="phone">
-                  {call.phone}
-                </a>
-              </div>
-            ))}
+        <div className="sermonContainer inline">
+          <div className="flex">
+            Sermon Content...
           </div>
         </div>
       </ServiceStyles>
-      <TabletServiceStyles>
+      <TabletSermonStyles>
         <div className="flexSwitch">
-          <div className="flex left">
-            {services.map((service) => (
-              <div className="head flex" key={service.id}>
-                <h1>{service.title}</h1>
-                <SanityImage 
-                  {...service.mainimage}
-                  className="noNineOver mainimg"
-                  alt={service.mainalt}
-                  style={{
-                    objectFit: 'cover',
-                    auto: 'format',
-                  }}
-                />
-              </div>
-            ))}
-            <div className="serviceContainer">
-              {plans.map((plan) => (
-                <div 
-                  className="serviceCard inline" 
-                  id={plan.title} 
-                  key={plan.id}
-                >
-                  <div className="dotContainer">
-                    <div className="dot" />
-                  </div>
-                  <div className="serviceInfo flex">
-                    <Link to={`/plans#${plan.slug.current}`}>
-                      <h2>{plan.title}</h2>
-                    </Link>
-                    <p>
-                      {plan.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
+          <div className="flex">
+            <div className="sermonContainer">
+              Sermon Content...
             </div>
-          </div>
-          <div className="right flex">
-          {services.map((service) => (
-            <span key={service.id}>
-              <SanityImage 
-                {...service.mainimage}
-                className="mainimg noNineUnder"
-                alt={service.mainalt}
-                style={{
-                  objectFit: 'cover',
-                  auto: 'format',
-                }}
-                />
-              <SanityImage 
-                {...service.textimage}
-                alt={service.textalt}
-                className="textImg"
-                style={{
-                  objectFit: 'cover',
-                  auto: 'format',
-                }}
-                />
-            </span>
-          ))}
-          {cta.map((call) => (
-            <div className="contact flex" key={call.id}>
-              <p className="tagline upper">
-                {call.tagline}
-              </p>
-              <Link to="/contact" className="buttonesque upper">
-                {call.cta}  <HiOutlineArrowNarrowRight className="arrowRight"/>
-              </Link>
-              <a href={`tel:${call.phone}`} className="phone">
-                {call.phone}
-              </a>
-            </div>
-            ))}
           </div>
         </div>
-      </TabletServiceStyles>
-      <MobileServiceStyles>
+      </TabletSermonStyles>
+      <MobileSermonStyles>
         <div className="flex">
-          {services.map((service) => (
-            <div className="head flex" key={service.id}>
-              <h1>{service.title}</h1>
-              <SanityImage 
-                {...service.mainimage}
-                alt={service.mainalt}
-                style={{
-                  objectFit: 'cover',
-                  auto: 'format',
-                }}
-              />
-            </div>
-          ))}
-          <div className="serviceContainer">
-            {plans.map((plan) => (
-              <div className="serviceCard inline" id={plan.title} key={plan.id}>
-                <div className="dotContainer">
-                  <div className="dot" />
-                </div>
-                <div className="serviceInfo flex">
-                  <Link to={`/plans#${plan.slug.current}`}>
-                    <h2>{plan.title}</h2>
-                  </Link>
-                  <p>
-                    {plan.description}
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div className="sermonContainer">
+            Sermon Content...
           </div>
         </div>
-        {services.map((service) => (
-            <span key={service.id}>
-              <SanityImage 
-                {...service.textimage}
-                alt={service.textalt}
-                className="textImg"
-                style={{
-                  objectFit: 'cover',
-                  auto: 'format',
-                }}
-                />
-            </span>
-          ))}
-        {cta.map((call) => (
-          <div className="contact flex" key={call.id}>
-            <p className="tagline upper">
-              {call.tagline}
-            </p>
-            <Link to="/contact" className="buttonesque upper">
-              {call.cta}  <HiOutlineArrowNarrowRight className="arrowRight"/>
-            </Link>
-            <a href={`tel:${call.phone}`} className="phone">
-              {call.phone}
-            </a>
-          </div>
-        ))}     
-      </MobileServiceStyles>
+      </MobileSermonStyles>
     </>
   );
 }
 
-export const query = graphql`
-  query {
-    services: allSanityServiceContent {
-      nodes {
-        title
-        id
-        mainalt
-        textalt
-        mainimage {
-          asset {
-            id
-          }
-          ...ImageWithPreview
-        }
-        textimage {
-          asset {
-            id
-          }
-          ...ImageWithPreview
-        }
-      }
-    }
-    plans: allSanityServices {
-      nodes {
-        description
-        id
-        title
-        slug {
-          current
-        }
-        plans {
-          _key
-          plantitle
-          description
-        }
-      }
-    }
-    cta: allSanityContactInfo {
-      nodes {
-        tagline
-        phone
-        id
-        cta
-      }
-    }
-  }
-`;
+// export const query = graphql`
+//   query {
+//     sermons: allSanitySermons {
+//       nodes {
+//         id
+//         title
+//         _rawDescription
+//         _rawVideo
+//       }
+//     }
+//     guestsermons: allSanityGuestSermons {
+//       nodes {
+//         id
+//         title
+//         _rawDescription
+//         _rawVideo
+//       }
+//     }
+//   }
+// `;

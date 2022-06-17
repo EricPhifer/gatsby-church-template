@@ -1,6 +1,5 @@
 import React from 'react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
-import SanityImage from 'gatsby-plugin-sanity-image';
 import styled from 'styled-components';
 
 const NavStyles = styled.div`
@@ -945,73 +944,75 @@ const MobileNavStyles = styled.div`
 
 
 export default function Nav() {
-  const { navigation } = useStaticQuery(graphql`
-    query {
-      navigation: allSanityLayoutHeader {
-        nodes {
-          id
-          contactnumber
-          title
-          mainalt
-          mainlogo {
-            asset {
-              id
-            }
-            ...ImageWithPreview
-          }
-        }
-      }
-    }
-  `)
+  // const { navigation } = useStaticQuery(graphql`
+  //   query {
+  //     navigation: allSanityLayoutHeader {
+  //       nodes {
+  //         id
+  //         title
+  //         links
+  //         mainalt
+  //         mainlogo {
+  //           asset {
+  //             id
+  //           }
+  //           ...ImageWithPreview
+  //         }
+  //         mobilebg {
+  //           asset {
+  //             id
+  //           }
+  //           ...ImageWithPreview
+  //         }
+  //       }
+  //     }
+  //   }
+  // `)
 
-const nodes = navigation.nodes;
+// const nodes = navigation.nodes;
 const [checked, setChecked] = React.useState(false || '');
 
   return (
     <>
-      {nodes.map((node) => (
-        <div className="nodeParser" key={node.id}>
+      {/* {nodes.map((node) => ( */}
+        <div className="nodeParser" /* key={node.id} */>
           <NavStyles>
-            <div className="bg-image full" />
-            <div className="full bg-gray">
-            <div className="lowerNav maxWidth">
-              <nav>
-                <ul>
-                  <Link to="/">
-                    <li>
-                      <span>Home</span>
-                    </li>
-                  </Link>
-                  <Link to="/about">
-                    <li>
-                      <span>About</span>
-                    </li>
-                  </Link>
-                  <Link to="/sermons">
-                    <li>
-                      <span>Sermons</span>
-                    </li>
-                  </Link>
-                  <Link to="/calendar">
-                    <li>
-                      <span>Calendar</span>
-                    </li>
-                  </Link>
-                  <Link to="/contact">
-                    <li>
-                      <span>Contact Us</span>
-                    </li>
-                  </Link>
-                </ul>
-           
-              </nav>
-            </div>
+            <div className="full">
+              <div className="maxWidth">
+                <nav>
+                  <ul>
+                    <Link to="/">
+                      <li>
+                        <span>Home</span>
+                      </li>
+                    </Link>
+                    <Link to="/about">
+                      <li>
+                        <span>About</span>
+                      </li>
+                    </Link>
+                    <Link to="/contact">
+                      <li>
+                        <span>Contact</span>
+                      </li>
+                    </Link>
+                    <Link to="/calendar">
+                      <li>
+                        <span>Calendar</span>
+                      </li>
+                    </Link>
+                    <Link to="/sermons">
+                      <li>
+                        <span>Sermons</span>
+                      </li>
+                    </Link>
+                  </ul>
+                </nav>
+              </div>
             </div>
           </NavStyles>
           <TabletNavStyles>
-            <div className="navGradient" />
             <div className="navContainer">
-              <a href={`tel:${node.contactnumber}`} className="phone">{node.contactnumber}</a>
               <div id="menuToggle">
                 <input 
                   type="checkbox" 
@@ -1043,7 +1044,7 @@ const [checked, setChecked] = React.useState(false || '');
                       >
                         <Link to="/about" className="mobileLink">
                           <li>
-                            <p>About Us</p>
+                            <p>About</p>
                           </li>
                         </Link>
                       </button>
@@ -1053,9 +1054,9 @@ const [checked, setChecked] = React.useState(false || '');
                           () => {setChecked(old => !old)}
                         }
                       >
-                        <Link to="/sermons" className="mobileLink">
+                        <Link to="/contact" className="mobileLink">
                           <li>
-                            <p>Sermons</p>
+                            <p>Contact</p>
                           </li>
                         </Link>
                       </button>
@@ -1077,66 +1078,20 @@ const [checked, setChecked] = React.useState(false || '');
                           () => {setChecked(old => !old)}
                         }
                       >
-                        <Link to="/contact" className="mobileLink">
+                        <Link to="/sermons" className="mobileLink">
                           <li>
-                            <p>Contact Us</p>
+                            <p>Sermons</p>
                           </li>
                         </Link>
                       </button>
                     </ul>
                   </nav>
-                  <nav className="lowerNav">
-                    <ul className="inline">
-                      <li>
-                        <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                        <Link to="/plans#employer-benefit-solutions">Employer and Individual Health Plans</Link>
-                        </button>
-                      </li>
-                      <span className="navBarCancel"> | </span>
-                      <li>
-                        <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                        <Link to="/plans#medicare">Medicare</Link>
-                        </button>
-                      </li>
-                      <span className="navBarCancel"> | </span>
-                      <li>
-                        <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                        <Link to="/plans#life-insurance">Life Insurance</Link>
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
                 </div>
               </div>
-              <SanityImage 
-              {...node.mainlogo}
-              alt={node.mainalt}
-              style={{
-                objectFit: 'contain',
-                auto: 'format',
-              }}
-            />
             </div>
           </TabletNavStyles>
           <MobileNavStyles>
-            <div className="navGradient" />
             <div className="navContainer">
-              <a href={`tel:${node.contactnumber}`} className="phone">{node.contactnumber}</a>
               <div id="menuToggle">
               <input 
                   type="checkbox" 
@@ -1168,7 +1123,7 @@ const [checked, setChecked] = React.useState(false || '');
                       >
                         <Link to="/about" className="mobileLink">
                           <li>
-                            <p>About Us</p>
+                            <p>About</p>
                           </li>
                         </Link>
                       </button>
@@ -1178,9 +1133,9 @@ const [checked, setChecked] = React.useState(false || '');
                           () => {setChecked(old => !old)}
                         }
                       >
-                        <Link to="/sermons" className="mobileLink">
+                        <Link to="/contact" className="mobileLink">
                           <li>
-                            <p>Sermons</p>
+                            <p>Contact</p>
                           </li>
                         </Link>
                       </button>
@@ -1202,64 +1157,20 @@ const [checked, setChecked] = React.useState(false || '');
                           () => {setChecked(old => !old)}
                         }
                       >
-                        <Link to="/contact" className="mobileLink">
+                        <Link to="/sermons" className="mobileLink">
                           <li>
-                            <p>Contact Us</p>
+                            <p>Sermons</p>
                           </li>
                         </Link>
                       </button>
                     </ul>
                   </nav>
-                  <nav className="lowerNav">
-                    <ul>
-                      <li>
-                        <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                          <Link to="/plans#employer-benefit-solutions">Employer and Individual Health Plans</Link>
-                        </button>
-                      </li>
-                      <br />
-                      <li className="inline">
-                        <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                          <Link to="/plans#medicare">Medicare</Link>
-                      </button>
-                        <span className="navBarCancel"> | </span>
-                      <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                          <Link to="/plans#life-insurance" className="lifeAltering">
-                            Life Insurance
-                          </Link>
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
                 </div>
               </div>
-              <SanityImage 
-              {...node.mainlogo}
-              alt={node.mainalt}
-              style={{
-                objectFit: 'contain',
-                auto: 'format',
-              }}
-            />
             </div>
           </MobileNavStyles>
         </div>
-      ))}
+      {/* ))} */}
     </>
   );
 }

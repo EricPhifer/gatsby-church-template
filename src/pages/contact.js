@@ -1,6 +1,5 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-// import SanityImage from 'gatsby-plugin-sanity-image';
 import styled from 'styled-components';
 import useForm from '../../utils/useForm.js';
 import useContact from '../../utils/useContact.js';
@@ -564,8 +563,7 @@ const MobileFormStyles = styled.div`
 `;
 
 export default function Contact({ data }) {
-  const contacts = data.contacts.nodes;
-  const cta = data.cta.nodes;
+  // const contacts = data.contacts.nodes;
   const { values, updateValue } = useForm({
     name: '',
     email: '',
@@ -587,31 +585,6 @@ export default function Contact({ data }) {
       <SEO title="Contact Us" />
         <ContactStyles>
             <div className="contactContainer inline">
-              <div className='left flex'>
-                {contacts.map((contact) => (
-                  <div className="content" key={contact.id}>
-                    <p className='p1'>{contact.firstparagraph}</p>
-                    <p className='p2'>{contact.secondparagraph}</p>
-                    <p className='p3'>{contact.thirdparagraph}</p>
-                  </div>
-                ))}
-                {cta.map((call) => (
-                  <div className="callContainer" key={call.id}>
-                    <p className="tagline upper">
-                      {call.tagline}
-                    </p>
-                    <a href={`tel:${call.phone}`} className="phone">
-                      {call.phone}
-                    </a>
-                  </div>
-                ))}
-                {contacts.map((c) => (
-                  <div className="address" key={c.id}>
-                    <h3>{c.streetaddress}</h3>
-                    <h3>{c.cityaddress}</h3>
-                  </div>
-                ))}
-              </div>
               <div className="contactInfo right">
                 <h1>Contact Us</h1>
                 <FormStyles>
@@ -849,31 +822,6 @@ export default function Contact({ data }) {
                 <p className='tomato'>Required fields</p>
               </TabletFormStyles>
             </div>
-            <div className='flex'>
-              {contacts.map((contact) => (
-                <div className="content" key={contact.id}>
-                  <p className='p1'>{contact.firstparagraph}</p>
-                  <p className='p2'>{contact.secondparagraph}</p>
-                  <p className='p3'>{contact.thirdparagraph}</p>
-                </div>
-              ))}
-              {cta.map((call) => (
-                <div className="callContainer" key={call.id}>
-                  <p className="tagline upper">
-                    {call.tagline}
-                  </p>
-                  <a href={`tel:${call.phone}`} className="phone">
-                    {call.phone}
-                  </a>
-                </div>
-              ))}
-              {contacts.map((c) => (
-                <div className="address" key={c.id}>
-                  <h3>{c.streetaddress}</h3>
-                  <h3>{c.cityaddress}</h3>
-                </div>
-              ))}
-            </div>
           </div>
         <div className='mapContainer'>
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3097.753386369639!2d-108.55890598436525!3d39.066533944561094!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87471c68f4f11b93%3A0xdf1f6524a186a19!2sActive%20Insurance%20Solutions!5e0!3m2!1sen!2sus!4v1654626606979!5m2!1sen!2sus" />
@@ -996,31 +944,6 @@ export default function Contact({ data }) {
                 <p className='tomato'>Required fields</p>
               </MobileFormStyles>
             </div>
-            <div className='flex'>
-              {contacts.map((contact) => (
-                <div className="content" key={contact.id}>
-                  <p className='p1'>{contact.firstparagraph}</p>
-                  <p className='p2'>{contact.secondparagraph}</p>
-                  <p className='p3'>{contact.thirdparagraph}</p>
-                </div>
-              ))}
-              {cta.map((call) => (
-                <div className="callContainer" key={call.id}>
-                  <p className="tagline upper">
-                    {call.tagline}
-                  </p>
-                  <a href={`tel:${call.phone}`} className="phone">
-                    {call.phone}
-                  </a>
-                </div>
-              ))}
-              {contacts.map((c) => (
-                <div className="address" key={c.id}>
-                  <h3>{c.streetaddress}</h3>
-                  <h3>{c.cityaddress}</h3>
-                </div>
-              ))}
-            </div>
           </div>
           <div className='mapContainer'>
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3097.753386369639!2d-108.55890598436525!3d39.066533944561094!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87471c68f4f11b93%3A0xdf1f6524a186a19!2sActive%20Insurance%20Solutions!5e0!3m2!1sen!2sus!4v1654626606979!5m2!1sen!2sus" />
@@ -1030,26 +953,18 @@ export default function Contact({ data }) {
   );
 }
 
-export const query = graphql`
-  query {
-    contacts:  allSanityContactPageContent {
-      nodes {
-        id
-        firstparagraph
-        streetaddress
-        cityaddress
-        secondparagraph
-        thirdparagraph
-        title
-      }
-    }
-    cta: allSanityContactInfo {
-      nodes {
-        tagline
-        phone
-        id
-        cta
-      }
-    }
-  }
-`;
+// export const query = graphql`
+//   query {
+//     contacts:  allSanityContactPageContent {
+//       nodes {
+//         id
+//         title
+//         phone
+//         streetaddress
+//         cityaddress
+//         content
+//         socialmedia
+//       }
+//     }
+//   }
+// `;

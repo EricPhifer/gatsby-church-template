@@ -1,10 +1,7 @@
 import React from 'react';
-import { graphql, Link } from 'gatsby';
-// import SanityImage from 'gatsby-plugin-sanity-image';
+import { graphql } from 'gatsby';
 import styled from 'styled-components';
-import { HiOutlineArrowNarrowRight } from 'react-icons/hi';
 import SEO from '../components/SEO';
-import SanityImage from 'gatsby-plugin-sanity-image';
 import { defaultComponents, PortableText } from '@portabletext/react';
 
 const AboutStyles = styled.div`
@@ -493,129 +490,29 @@ const MobileAboutStyles = styled.div`
 `;
 
 export default function AboutPage({ data }) {
-  const profiles = data.profiles.nodes;
-  const contents = data.contents.nodes;
-  const cta = data.cta.nodes;
+  // const contents = data.contents.nodes;
   return (
     <>
       <SEO title="About Us" />
         <AboutStyles>
-          {contents.map((content) => (
-            <div className="head inline" key={content.id}>
-              <div className="left flex">
-                <h1>{content.title}</h1>
-              </div>
-              <div className="right flex">
-                <SanityImage 
-                  {...content.textimage}
-                  alt={content.textalt}
-                  className="textImg"
-                  style={{
-                    objectFit: 'cover',
-                    auto: 'format',
-                  }}
-                />
-              </div>
-            </div>
-          ))}
-        <div className="content inline">
-          <section className="staffContainer flex">
-            {profiles.map((staff) => (
-              <div className="inline staff" key={staff.id} id={staff.name.split(' ')[0].toLowerCase().split('.')[0]}>
-                <div className="staffImg">
-                  <SanityImage
-                    {...staff.profileimage}
-                    alt={staff.mainalt}
-                    style={{
-                      objectFit: 'cover',
-                      auto: 'format',
-                    }}
-                  />
-                </div>
-                <div className="flex staffInfo">
-                  <h3 className="name">
-                    {staff.name}
-                  </h3>
-                  <p className="title">
-                    {staff.jobTitle}
-                  </p>
-                  <p className="email">
-                    {staff.email}
-                  </p>
-                  <p className="bio">
-                    {staff.bio}
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div className="content inline">
+              <section className="missionContainer flex">
+                {/* {contents.map((c) => (
+                  <div key={c.id} className='info flex'>
+                    <PortableText 
+                      value={c._rawContent}
+                      components={defaultComponents}
+                      className="flex"
+                    />
+                  </div>
+                ))} */}
             </section>
-            <section className="missionContainer flex">
-              {contents.map((c) => (
-                <div key={c.id} className='info flex'>
-                  <PortableText 
-                    value={c._rawContent}
-                    components={defaultComponents}
-                    className="flex"
-                  />
-                </div>
-              ))}
-            {cta.map((call) => (
-              <div className="contact flex" key={call.id}>
-                <p className="tagline upper">
-                  {call.tagline}
-                </p>
-                <a href={`tel:${call.phone}`} className="phone">
-                  {call.phone}
-                </a>
-                <Link to="/contact" className="buttonesque upper">
-                  {call.cta}  <HiOutlineArrowNarrowRight className="arrowRight"/>
-                </Link>
-              </div>
-            ))}
-          </section>
-        </div>
+          </div>
         </AboutStyles>
         <TabletAboutStyles>
-          {contents.map((content) => (
-            <div className="head flex" key={content.id}>
-              <div className="left flex">
-                <h1>{content.title}</h1>
-              </div>
-            </div>
-          ))}
           <div className="content flex">
-          <section className="staffContainer flex">
-            {profiles.map((staff) => (
-              <div className="inline staff" key={staff.id} id={staff.name.split(' ')[0].toLowerCase().split('.')[0]}>
-                <div className="staffImg">
-                  <SanityImage
-                    {...staff.profileimage}
-                    alt={staff.mainalt}
-                    style={{
-                      objectFit: 'cover',
-                      auto: 'format',
-                    }}
-                  />
-                </div>
-                <div className="flex staffInfo">
-                  <h3 className="name">
-                    {staff.name}
-                  </h3>
-                  <p className="title">
-                    {staff.jobTitle}
-                  </p>
-                  <p className="email">
-                    {staff.email}
-                  </p>
-                  <p className="bio">
-                    {staff.bio}
-                  </p>
-                </div>
-              </div>
-            ))}
-            </section>
-            <section className="missionContainer flex">
-              {contents.map((c) => (
+            <section className="container flex">
+              {/* {contents.map((c) => (
                 <div key={c.id} className='info flex'>
                   <PortableText 
                     value={c._rawContent}
@@ -623,66 +520,14 @@ export default function AboutPage({ data }) {
                     className="flex"
                   />
                 </div>
-              ))}
+              ))} */}
             </section>
-            {cta.map((call) => (
-              <div className="contact flex" key={call.id}>
-                <p className="tagline upper">
-                  {call.tagline}
-                </p>
-                <div className="inline nextTo">
-                  <a href={`tel:${call.phone}`} className="phone">
-                    {call.phone}
-                  </a>
-                  <Link to="/contact" className="buttonesque upper">
-                    {call.cta}  <HiOutlineArrowNarrowRight className="arrowRight"/>
-                  </Link>
-                </div>
-              </div>
-            ))}
           </div>
         </TabletAboutStyles>
         <MobileAboutStyles>
-          {contents.map((content) => (
-            <div className="head flex" key={content.id}>
-              <div className="left flex">
-                <h1>{content.title}</h1>
-              </div>
-            </div>
-          ))}
-          <div className="content flex">
-            <section className="staffContainer flex">
-            {profiles.map((staff) => (
-              <div className="flex staff" key={staff.id} id={staff.name.split(' ')[0].toLowerCase().split('.')[0]}>
-                <div className="staffImg">
-                  <SanityImage
-                    {...staff.profileimage}
-                    alt={staff.mainalt}
-                    style={{
-                      objectFit: 'cover',
-                      auto: 'format',
-                    }}
-                  />
-                </div>
-                <div className="flex staffInfo">
-                  <h3 className="name">
-                    {staff.name}
-                  </h3>
-                  <p className="title">
-                    {staff.jobTitle}
-                  </p>
-                  <p className="email">
-                    {staff.email}
-                  </p>
-                  <p className="bio">
-                    {staff.bio}
-                  </p>
-                </div>
-              </div>
-            ))}
-            </section>
-            <section className="missionContainer flex">
-              {contents.map((c) => (
+          <div className="content flex">  
+            <section className="container flex">
+              {/* {contents.map((c) => (
                 <div key={c.id} className='info flex'>
                   <PortableText 
                     value={c._rawContent}
@@ -690,75 +535,31 @@ export default function AboutPage({ data }) {
                     className="flex"
                   />
                 </div>
-              ))}
+              ))} */}
             </section>
-            {cta.map((call) => (
-              <div className="contact flex" key={call.id}>
-                <p className="tagline upper">
-                  {call.tagline}
-                </p>
-                <div className="inline nextTo">
-                  <a href={`tel:${call.phone}`} className="phone">
-                    {call.phone}
-                  </a>
-                  <Link to="/contact" className="buttonesque upper">
-                    {call.cta}  <HiOutlineArrowNarrowRight className="arrowRight"/>
-                  </Link>
-                </div>
-              </div>
-            ))}
           </div>
         </MobileAboutStyles>
     </>
   );
 }
 
-export const query = graphql`
-  query {
-    profiles: allSanityAboutProfile {
-      nodes {
-        email
-        bio
-        id
-        jobTitle
-        name
-        mainalt
-        profileimage {
-          asset {
-            id
-          }
-          ...ImageWithPreview
-        }
-      }
-    }
-    contents: allSanityAboutContent {
-      nodes {
-        _rawContent
-        mainimage {
-          asset {
-            id
-          }
-          ...ImageWithPreview
-        }
-        id
-        title
-        mainalt
-        textalt
-        textimage {
-          asset {
-            id
-          }
-          ...ImageWithPreview
-        }
-      }
-    }
-    cta: allSanityContactInfo {
-      nodes {
-        tagline
-        phone
-        id
-        cta
-      }
-    }
-  }
-`;
+// export const query = graphql`
+//   query {
+//     contents: allSanityAbout {
+//       nodes {
+//         id
+//         title
+//         _rawContent
+//         imgalt
+//         image {
+//           asset {
+//             id
+//           }
+//           ...ImageWithPreview
+//         }
+//         aboutnav
+//       }
+//     }
+ 
+//   }
+// `;

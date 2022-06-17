@@ -4,9 +4,9 @@
 
 module.exports = {
   siteMetadata: {
-    title: 'Active Insurance Solutions',
-    siteUrl: 'https://activeinsurancegj.com',
-    description: 'Good Health. That\'s the plan.',
+    title: 'Church',
+    siteUrl: 'https://fruitafaith.com',
+    description: 'We desire to teach and apply the truths of the Bible to our everyday lives.',
   },
   /* Your site config here */
   plugins: [

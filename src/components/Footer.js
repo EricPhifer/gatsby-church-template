@@ -53,27 +53,26 @@ const FooterStyles = styled.footer`
 `;
 
 export default function Footer() {
-  const { footer } = useStaticQuery(graphql`
-    query {
-      footer: allSanityLayoutFooter {
-          nodes {
-            dev
-            designs
-            copyright
-            id
-            title
-          }
-        }
-      }
-  `)
+  // const { footer } = useStaticQuery(graphql`
+  //   query {
+  //     footer: allSanityLayoutFooter {
+  //         nodes {
+  //           dev
+  //           devlink
+  //           id
+  //           title
+  //         }
+  //       }
+  //     }
+  // `)
   
-  const nodes = footer.nodes;
+  // const nodes = footer.nodes;
   return (
     <FooterStyles>
-      {nodes.map((node) => (
-      <div className="footerContainer" key={node.id}>
+      {/* {nodes.map((node) => ( */}
+      <div className="footerContainer" /* key={node.id} */>
         <ul className="footerCredits column">
-          <li>&copy; {node.copyright} {new Date().getFullYear()}</li>
+          <li>&copy; {/* {node.title} */} {new Date().getFullYear()}</li>
           <li>
             <ul className="inline privTerms">
               <li><Link to="/privacypolicy">Privacy Policy</Link></li>
@@ -82,25 +81,13 @@ export default function Footer() {
             </ul>
           </li>
           <li> 
-            Designed by {' '}
-            <span>
-              {node.designs[0]}
-            </span>
-            {' '}
-            and
-            {' '} 
             <a href="https://ericphifer.com" target="_blank" rel="noreferrer">
-              {node.designs[1]}
-            </a>
-          </li>
-          <li> 
-            <a href="https://ericphifer.com" target="_blank" rel="noreferrer">
-              Developed by {node.dev}
+              Designed &amp; Developed by {/* {node.dev} */}
             </a>
           </li>
         </ul>
       </div>
-      ))}
+      {/* ))} */}
     </FooterStyles>
   );
 }
