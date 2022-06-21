@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import SEO from '../components/SEO';
 
 const TermStyles = styled.div`
-  padding: 18rem 5rem 0;
   word-wrap: break-word;
   .termsContainer {
     max-width: 600px;

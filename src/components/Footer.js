@@ -9,12 +9,12 @@ const FooterStyles = styled.footer`
   padding: 0;
   position: absolute;
   bottom: 0;
-  background-color: var(--gray);
-  font-size: 1.25rem;
+  background-color: #000;
+  color: #fff;
+  font-size: 1.5rem;
   .footerContainer {
     max-width: 1080px;
     margin: 0 auto;
-    text-align: center;
     ul {
       padding: 0;
       margin: 0;
@@ -24,70 +24,98 @@ const FooterStyles = styled.footer`
       display: inline-flex;
       flex-wrap: wrap;
       justify-content: center;
-      span {
-        padding: 0 1rem;
-      }
     }
     .column {
       display: flex;
       flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
     }
-    .footerNav {
+    .footerCredits {
       margin: 3rem 2.5rem;
-      font-weight: bold;
-      padding: 0 0.5rem;
-      li {
-        padding-bottom: 1rem;
-      }
       a {
-        color: var(--blue);
+        color: #fff;
+        padding-left: 0.5rem;
+      }
+    }
+    .footerCredits > li {
+      padding-bottom: 0.5rem;
+    }
+    .linkParser {
+      line-height: 0.7;
+      padding-left: 5px;
+    }
+    .linkParser li:last-child {
+      &::before, &::after {
+        content: '  |  ';
+        color: var(--orange);
+        font-weight: bold;
+        font-size:1.75rem;
       }
     }
     a:hover {
-      color: var(--white);
+      color: var(--orange);
     }
     a[aria-current='page'] {
-      border-bottom: 1px solid var(--red);
+      border-bottom: 1px solid var(--yellow);
+    }
+  }
+  @media only screen and (max-width: 325px) {
+    .footerCredits {
+      font-size: 1.25rem;
     }
   }
 `;
 
 export default function Footer() {
-  // const { footer } = useStaticQuery(graphql`
-  //   query {
-  //     footer: allSanityLayoutFooter {
-  //         nodes {
-  //           dev
-  //           devlink
-  //           id
-  //           title
-  //         }
-  //       }
-  //     }
-  // `)
+  const { footer } = useStaticQuery(graphql`
+    query {
+      footer: allSanityFooter {
+        nodes {
+          title
+          id
+          devlink
+          dev
+          links {
+            pagelink
+            pagename
+            _key
+          }
+        }
+      }
+    }
+  `)
   
-  // const nodes = footer.nodes;
+  const nodes = footer.nodes;
   return (
     <FooterStyles>
-      {/* {nodes.map((node) => ( */}
-      <div className="footerContainer" /* key={node.id} */>
-        <ul className="footerCredits column">
-          <li>&copy; {/* {node.title} */} {new Date().getFullYear()}</li>
-          <li>
-            <ul className="inline privTerms">
-              <li><Link to="/privacypolicy">Privacy Policy</Link></li>
-              <span> | </span>
-              <li><Link to="/termsconditions">Terms &amp; Conditions</Link></li>
-            </ul>
-          </li>
-          <li> 
-            <a href="https://ericphifer.com" target="_blank" rel="noreferrer">
-              Designed &amp; Developed by {/* {node.dev} */}
-            </a>
-          </li>
-        </ul>
-      </div>
-      {/* ))} */}
+      {nodes.map((node) => (
+        <div className="footerContainer" key={node.id}>
+          <ul className="footerCredits column">
+            <li>
+              &copy; {node.title} {new Date().getFullYear()}
+            </li>
+            <li>
+              <ul className="inline privTerms">
+                {node.links.map((link) => (
+                  <span className='linkParser' key={link._key}>
+                    <Link to={link.pagelink}>
+                      <li>
+                        {link.pagename}
+                      </li>
+                    </Link> 
+                  </span>
+                ))}
+              </ul>
+            </li>
+            <li> 
+              <a href={node.devlink} target="_blank" rel="noreferrer">
+                Designed &amp; Developed by {node.dev}
+              </a>
+            </li>
+          </ul>
+        </div>
+      ))}
     </FooterStyles>
   );
 }

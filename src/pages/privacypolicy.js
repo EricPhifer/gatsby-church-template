@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import SEO from '../components/SEO';
 
 const PolicyStyles = styled.div`
-  padding: 18rem 5rem 0;
   word-wrap: break-word;
   h1 {
     text-align: center;

@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 const Typography = createGlobalStyle`
   html {
-    font-family: helvetica, helvetica neue, -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, Ubuntu, roboto, noto, arial, sans-serif;
+    font-family: Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif;;
     color: #000;
   }
 

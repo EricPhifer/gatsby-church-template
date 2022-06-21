@@ -1,24 +1,15 @@
 import React from 'react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import styled from 'styled-components';
+import SanityImage from 'gatsby-plugin-sanity-image';
+import mobileBG from '../assets/images/mobile-nav-ffbc.jpg';
 
 const NavStyles = styled.div`
-  .bg-gradient {
-    position: static;
-    z-index: 1;
-    height: 16rem;
-    background-image: linear-gradient(to bottom, var(--blue), transparent);
-  }
-  .bg-gray {
-    position: static;
-    z-index: 5;
-    height: 6rem;
-    background: var(--gray);
-    box-shadow: 0 10px 10px #000;
-  }
+  width: 100vw;
+  position: relative;
   .full {
     width: 100vw;
-    position: fixed;
+    position: relative;
   }
   .maxWidth {
     max-width: 1080px;
@@ -27,98 +18,48 @@ const NavStyles = styled.div`
   a {
     cursor: pointer;
   }
-  .upperNav {
-    display: flex;
-    place-items: center center;
-    position: static;
-    z-index: 6;
-    .phone {
-      width: 50%;
-      font-weight: bold;
-      text-align: center;
-      margin-right: 8rem;
-      position: static;
-      z-index: 4;
-    }
-    a:hover {
-      color: var(--blue);
-    }
-    nav {
-      width: 50%;
-      text-align: right;
-      span {
-        color: var(--white);
-      }
-      ul {
-        display: inline-flex;
-        flex-flow: row nowrap;
-      }
-      ul li {
-        padding: 0 0.5rem;
-      }
-      ul li a {
-        font-size: 1rem;
-        color: var(--white);
-        font-weight: bold;
-      }
-    }
-  }
-  .lowerNav {
-    position: relative;
-    nav {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      img {
-        margin-top: -4.5rem;
-        height: auto;
-        width: auto;
-        background: transparent;
-      }
-      ul {
-        position: static;
-        z-index: 4;
-        display: inline-flex;
-        margin-top: 13px;
-      }
-    }
-    a {
-      height: 8.169rem;
-      width: 8.231rem;
-      margin: 0 5px;
-      background-color: var(--black);
-      color: var(--white);
-      text-transform: uppercase;
-      box-shadow: inset 0 8px 5px #000;
-      &[aria-current='page'] {
-        background-color: var(--white);
-        color: var(--black);
-        border-bottom: 1px solid var(--red);
-      }
-      &:last-child {
-        background-color: var(--blue);
-      }
-      &:hover {
-        background-color: var(--white);
-        color: var(--black);
-      }
-    }
-    a li {
-      display: flex;
-      align-items: end;
-      justify-content: center;
-      margin-top: 5rem;
-    }
-    a li span {
-      font-size: 1rem;
-      font-weight: bold;
-      padding: 1rem 0;
-    }
-  }
   nav ul {
     list-style-type: none;
+    a {
+      padding: 2rem;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #fff;
+      &:hover {
+        color: var(--orange);
+        text-shadow: 1px 0 0 #fff, -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff;
+      }
+      &[aria-current='page'] {
+        background-color: var(--orange);
+      }
+    }
   }
-
+  .navImg {
+    height: 30vmin;
+    background-image: linear-gradient(to bottom, var(--orange), var(--brown));
+    box-shadow: 0 5px 10px #000;
+    z-index: 1;
+  }
+  .navBG {
+    background-color: var(--brown);
+    box-shadow: 0 5px 10px #000;
+  }
+  .inline {
+    display: inline-flex;
+    margin: 0;
+    padding: 0;
+  }
+  .flex {
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 0;
+    padding: 0;
+  }
+  .center {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
   /* Hide menu on small screens */
   @media only screen and (max-width: 900px) {
     display: none;
@@ -133,36 +74,13 @@ const TabletNavStyles = styled.div`
   @media only screen and (max-width: 500px) {
     display: none;
   }
-  .navGradient {
-    width: 100%;
-    height: 16rem;
-    background-image: linear-gradient(to bottom, var(--blue), transparent);
-    position: fixed;
-    z-index: 1;
-  }
-  img {
-    width: 36rem;
-    margin-top: 3rem;
-  }
   .navContainer {
     width: 100vw;
     height: 7rem;
-    background: var(--gray);
+    background-color: var(--brown);
     box-shadow: 0 10px 10px #000;
     position: fixed;
     z-index: 1;
-  }
-  .phone {
-    position: absolute;
-    top: 25px;
-    left: 15rem;
-    font-weight: bold;
-    z-index: 2;
-  }
-  .navBarCancel {
-    width: 0 !important;
-    height: 0 !important;
-    background: transparent;
   }
   .inline {
     display: inline-flex;
@@ -199,14 +117,14 @@ const TabletNavStyles = styled.div`
     border-radius: 3px;
     z-index: 1;
     transform-origin: 5px 0;
-    background: var(--white);
+    background: #fff;
     transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
     background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
   }
   #menuToggle span:first-child {
     transform-origin: 0% 0%;
   }
-  #menuToggle span:nth-last-child(2) {
+  #menuToggle span:nth-last-child(3) {
     transform-origin: 0% 100%;
   }
   #menuToggle input:checked ~ span {
@@ -214,6 +132,10 @@ const TabletNavStyles = styled.div`
     transform: rotate(45deg) translate(-10px, -10px);
   }
   #menuToggle input:checked ~ span:nth-last-child(2) {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
+  }
+  #menuToggle input:checked ~ span:nth-last-child(3) {
     transform: rotate(-45deg) translate(1px, 0);
   }
   #menu {
@@ -226,7 +148,10 @@ const TabletNavStyles = styled.div`
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    background-image: linear-gradient(to bottom, var(--blue), #fff);
+    background-image: url(${mobileBG});
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
     box-shadow: 0 0 10px #85888c;
     transform-origin: 0% 0%;
     transform: translate(100%, 0%);
@@ -239,57 +164,29 @@ const TabletNavStyles = styled.div`
   #menu button {
     background-color: transparent;
     margin: 0;
-    padding: 0;
+    padding: 0 2rem;
     box-shadow: none;
   }
   #menuToggle input:checked ~ .menuContainer {
     transform: none;
   }
-  a {
-    color: var(--white);
-    font-size: 1.5rem;
-  }
-  .upperNav ul {
+  ul {
+    list-style-type: none;
+    max-width: 75%;
     display: flex;
     flex-flow: column nowrap;
-    margin-top: 5rem;
+    margin: 10rem auto 0;
     padding: 0;
-    list-style-type: none;
-    button {
-      height: 10rem;
-    }
-    a {
-      margin-bottom: 4rem;
-      color: var(--black);
-      text-decoration: none;
-      text-transform: uppercase;
-      text-shadow: 0 0.5px var(--white), 0.5px 0 var(--white), 0 -0.5px var(--white), -0.5px 0 var(--white);
+    justify-content: center;
+    button a {
       font-size: 3rem;
-      &[aria-current='page'] {
-        text-decoration: underline 3px var(--red);
-      }
+      font-weight: bold;
     }
-    a:hover {
-      opacity: 0.5;
+    @media only screen and (max-height: 450px) {
+      flex-flow: row wrap;
     }
   }
-  .lowerNav {
-    display: flex;
-    flex-flow: row wrap;
-    position: absolute;
-    bottom: 15px;
-    right: 8px;
-    font-size: 1.5rem;
-    text-align: right;
-    ul {
-      padding: 0;
-      list-style-type: none;
-    }
-    ul li a {
-      font-size: 1.5rem;
-      color: var(--blue);
-    }
-  }
+  
   /* ----------- iPhone 4 and 4S ----------- */
 
   /* Portrait and Landscape */
@@ -306,10 +203,7 @@ const TabletNavStyles = styled.div`
     and (max-device-width: 480px)
     and (-webkit-min-device-pixel-ratio: 2)
     and (orientation: portrait) {
-      .lowerNav {
-        bottom: 100px;
-        right: 40px;
-      }
+     
     }
 
   /* Landscape */
@@ -318,17 +212,7 @@ const TabletNavStyles = styled.div`
     and (max-device-width: 480px)
     and (-webkit-min-device-pixel-ratio: 2)
     and (orientation: landscape) {
-      .upperNav ul {
-        max-width: 100vw;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(auto, 1fr));
-        a {
-          margin: 7vmin;
-        }
-      }
-      .lowerNav {
-        right: 40px;
-      }
+    
     }
 
   /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
@@ -347,10 +231,7 @@ const TabletNavStyles = styled.div`
     and (max-device-width: 568px)
     and (-webkit-min-device-pixel-ratio: 2)
     and (orientation: portrait) {
-      .lowerNav {
-        bottom: 100px;
-        right: 40px;
-      }
+    
     }
 
   /* Landscape */
@@ -359,17 +240,7 @@ const TabletNavStyles = styled.div`
     and (max-device-width: 568px)
     and (-webkit-min-device-pixel-ratio: 2)
     and (orientation: landscape) {
-      .upperNav ul {
-        max-width: 100vw;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(auto, 1fr));
-        a {
-          margin: 7vmin;
-        }
-      }
-      .lowerNav {
-        right: 40px;
-      }
+   
     }
 
   /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
@@ -388,10 +259,7 @@ const TabletNavStyles = styled.div`
     and (max-device-width: 667px) 
     and (-webkit-min-device-pixel-ratio: 2)
     and (orientation: portrait) {
-      .lowerNav {
-        bottom: 100px;
-        right: 40px;
-      } 
+     
     }
 
   /* Landscape */
@@ -400,17 +268,7 @@ const TabletNavStyles = styled.div`
     and (max-device-width: 667px) 
     and (-webkit-min-device-pixel-ratio: 2)
     and (orientation: landscape) {
-      .upperNav ul {
-        max-width: 100vw;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(auto, 1fr));
-        a {
-          margin: 5vmin;
-        }
-      } 
-      .lowerNav {
-        right: 40px;
-      }
+    
     }
 
   /* ----------- iPhone 6+, 7+ and 8+ ----------- */
@@ -429,10 +287,7 @@ const TabletNavStyles = styled.div`
     and (max-device-width: 736px) 
     and (-webkit-min-device-pixel-ratio: 3)
     and (orientation: portrait) {
-      .lowerNav {
-        bottom: 100px;
-        right: 40px;
-      } 
+    
     }
 
   /* Landscape */
@@ -441,17 +296,7 @@ const TabletNavStyles = styled.div`
     and (max-device-width: 736px) 
     and (-webkit-min-device-pixel-ratio: 3)
     and (orientation: landscape) {
-      .upperNav ul {
-        max-width: 100vw;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(auto, 1fr));
-        a {
-          margin: 7vmin;
-        }
-      } 
-      .lowerNav {
-        right: 40px;
-      }
+    
     }
 
   /* ----------- iPhone X ----------- */
@@ -470,10 +315,7 @@ const TabletNavStyles = styled.div`
     and (max-device-width: 812px) 
     and (-webkit-min-device-pixel-ratio: 3)
     and (orientation: portrait) {
-      .lowerNav {
-        bottom: 100px;
-        right: 40px;
-      } 
+     
     }
 
   /* Landscape */
@@ -482,17 +324,7 @@ const TabletNavStyles = styled.div`
     and (max-device-width: 812px) 
     and (-webkit-min-device-pixel-ratio: 3)
     and (orientation: landscape) {
-      .upperNav ul {
-        max-width: 100vw;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(auto, 1fr));
-        a {
-          margin: 7vmin;
-        }
-      }
-      .lowerNav {
-        right: 40px;
-      }
+     
     } 
 
   /* ----------- iPhone 11 Pro ----------- */
@@ -511,10 +343,7 @@ const TabletNavStyles = styled.div`
     and (max-device-width: 896px) 
     and (-webkit-min-device-pixel-ratio: 3)
     and (orientation: portrait) {
-      .lowerNav {
-        bottom: 100px;
-        right: 40px;
-      } 
+    
     }
 
   /* Landscape */
@@ -523,17 +352,7 @@ const TabletNavStyles = styled.div`
     and (max-device-width: 896px) 
     and (-webkit-min-device-pixel-ratio: 3)
     and (orientation: landscape) {
-      .upperNav ul {
-        max-width: 100vw;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(auto, 1fr));
-        a {
-          margin: 7vmin;
-        }
-      }
-      .lowerNav {
-        right: 40px;
-      }
+ 
     } 
 
   /* ----------- iPhone 12/13+ Pro ----------- */
@@ -552,10 +371,7 @@ const TabletNavStyles = styled.div`
     and (max-device-width: 844px) 
     and (-webkit-min-device-pixel-ratio: 3)
     and (orientation: portrait) {
-      .lowerNav {
-        bottom: 100px;
-        right: 40px;
-      } 
+     
     }
 
   /* Landscape */
@@ -564,17 +380,7 @@ const TabletNavStyles = styled.div`
     and (max-device-width: 844px) 
     and (-webkit-min-device-pixel-ratio: 3)
     and (orientation: landscape) {
-      .upperNav ul {
-        max-width: 100vw;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(auto, 1fr));
-        a {
-          margin: 7vmin;
-        }
-      }
-      .lowerNav {
-        right: 40px;
-      }
+  
     } 
 `;
 
@@ -583,36 +389,14 @@ const MobileNavStyles = styled.div`
   @media only screen and (min-width: 501px) {
     display: none;
   }
-  .navGradient {
-    width: 100%;
-    height: 16rem;
-    background-image: linear-gradient(to bottom, var(--blue), transparent);
-    position: fixed;
-    z-index: 1;
-  }
-  img {
-    width: 25rem;
-    margin-top: 4rem;
-  }
+
   .navContainer {
     width: 100vw;
     height: 7rem;
-    background: var(--gray);
+    background: var(--brown);
     box-shadow: 0 10px 10px #000;
     position: fixed;
     z-index: 1;
-  }
-  .phone {
-    position: absolute;
-    top: 25px;
-    left: 7rem;
-    font-weight: bold;
-    z-index: 2;
-  }
-  .navBarCancel {
-    width: 0 !important;
-    height: 0 !important;
-    background: transparent;
   }
   .inline {
     display: inline-flex;
@@ -650,7 +434,7 @@ const MobileNavStyles = styled.div`
     border-radius: 3px;
     z-index: 1;
     transform-origin: 5px 0;
-    background: var(--white);
+    background: #fff;
     transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
     background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
   }
@@ -662,9 +446,13 @@ const MobileNavStyles = styled.div`
   }
   #menuToggle input:checked ~ span {
     opacity: 1;
-    transform: rotate(45deg) translate(-10px, -10px);
+    transform: rotate(45deg) translate(-6px, -12px);
   }
   #menuToggle input:checked ~ span:nth-last-child(2) {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
+  }
+  #menuToggle input:checked ~ span:nth-last-child(3) {
     transform: rotate(-45deg) translate(1px, 0);
   }
   #menu {
@@ -677,7 +465,10 @@ const MobileNavStyles = styled.div`
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    background-image: linear-gradient(to bottom, var(--blue), #fff);
+    background-image: url(${mobileBG});
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
     box-shadow: 0 0 10px #85888c;
     transform-origin: 0% 0%;
     transform: translate(100%, 0%);
@@ -691,321 +482,86 @@ const MobileNavStyles = styled.div`
     margin: 0;
     padding: 0;
     box-shadow: none;
+    text-shadow: 1px 1px 5px #c2c2c2;
   }
   #menuToggle input:checked ~ .menuContainer {
     transform: none;
   }
-  a {
-    color: var(--white);
-    font-size: 1.5rem;
-  }
-  .lifeAltering {
-    width: 10rem;
-  }
-  .upperNav ul {
-    display: flex;
-    flex-flow: column nowrap;
-    margin-top: 10rem;
-    padding: 0;
+  ul {
     list-style-type: none;
-    button {
-      height: 7rem;
-    }
-    a {
-      margin-bottom: 4rem;
-      color: var(--black);
-      text-decoration: none;
-      text-transform: uppercase;
-      text-shadow: 0 0.5px var(--white), 0.5px 0 var(--white), 0 -0.5px var(--white), -0.5px 0 var(--white);
-      font-size: 3rem;
-      &[aria-current='page'] {
-        text-decoration: underline 3px var(--red);
-      }
-    }
-    a:hover {
-      opacity: 0.5;
-    }
-  }
-  .lowerNav {
+    max-width: 75%;
     display: flex;
     flex-flow: row wrap;
-    position: absolute;
-    bottom: 15px;
-    right: 8px;
-    font-size: 1.5rem;
-    text-align: right;
-    ul {
-      padding: 0;
-      list-style-type: none;
-    }
-    ul li a {
-      font-size: 1.5rem;
-      color: var(--blue);
+    margin: 10rem auto 0;
+    padding: 0;
+    justify-content: center;
+    button {
+      width: 100%;
+        a {
+        font-size: 3rem;
+        font-weight: bold;
+      }
     }
   }
-  @media only screen and (max-width: 300px) {
-    .phone {
-      left: 3.5rem;
-    }
-    img {
-      width: 20rem;
-    }
-  }
-  /* ----------- iPhone 4 and 4S ----------- */
-
-  /* Portrait and Landscape */
-  @media only screen 
-    and (min-device-width: 320px) 
-    and (max-device-width: 480px)
-    and (-webkit-min-device-pixel-ratio: 2) {
-      
-    }
-
-  /* Portrait */
-  @media only screen 
-    and (min-device-width: 320px) 
-    and (max-device-width: 480px)
-    and (-webkit-min-device-pixel-ratio: 2)
-    and (orientation: portrait) {
-      .lowerNav {
-        bottom: 100px;
-        right: 40px;
-      }
-    }
-
-  /* Landscape */
-  @media only screen 
-    and (min-device-width: 320px) 
-    and (max-device-width: 480px)
-    and (-webkit-min-device-pixel-ratio: 2)
-    and (orientation: landscape) {
-      .upperNav ul {
-        max-width: 100vw;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(auto, 1fr));
-        a {
-          margin: 7vmin;
-        }
-      }
-    }
-
-  /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
-
-  /* Portrait and Landscape */
-  @media only screen 
-    and (min-device-width: 320px) 
-    and (max-device-width: 568px)
-    and (-webkit-min-device-pixel-ratio: 2) {
-      
-    }
-
-  /* Portrait */
-  @media only screen 
-    and (min-device-width: 320px) 
-    and (max-device-width: 568px)
-    and (-webkit-min-device-pixel-ratio: 2)
-    and (orientation: portrait) {
-      .lowerNav {
-        bottom: 100px;
-        right: 40px;
-      }
-    }
-
-  /* Landscape */
-  @media only screen 
-    and (min-device-width: 320px) 
-    and (max-device-width: 568px)
-    and (-webkit-min-device-pixel-ratio: 2)
-    and (orientation: landscape) {
-      .upperNav ul {
-        max-width: 100vw;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(auto, 1fr));
-        a {
-          margin: 7vmin;
-        }
-      }
-    }
-
-  /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
-
-  /* Portrait and Landscape */
-  @media only screen 
-    and (min-device-width: 375px) 
-    and (max-device-width: 667px) 
-    and (-webkit-min-device-pixel-ratio: 2) { 
-     
-    }
-
-  /* Portrait */
-  @media only screen 
-    and (min-device-width: 375px) 
-    and (max-device-width: 667px) 
-    and (-webkit-min-device-pixel-ratio: 2)
-    and (orientation: portrait) {
-      .lowerNav {
-        bottom: 100px;
-        right: 40px;
-      } 
-    }
-
-  /* Landscape */
-  @media only screen 
-    and (min-device-width: 375px) 
-    and (max-device-width: 667px) 
-    and (-webkit-min-device-pixel-ratio: 2)
-    and (orientation: landscape) {
-      .upperNav ul {
-        max-width: 100vw;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(auto, 1fr));
-        a {
-          margin: 5vmin;
-        }
-      } 
-    }
-
-  /* ----------- iPhone 6+, 7+ and 8+ ----------- */
-
-  /* Portrait and Landscape */
-  @media only screen 
-    and (min-device-width: 414px) 
-    and (max-device-width: 736px) 
-    and (-webkit-min-device-pixel-ratio: 3) { 
-
-    }
-
-  /* Portrait */
-  @media only screen 
-    and (min-device-width: 414px) 
-    and (max-device-width: 736px) 
-    and (-webkit-min-device-pixel-ratio: 3)
-    and (orientation: portrait) {
-      .lowerNav {
-        bottom: 100px;
-        right: 40px;
-      } 
-    }
-
-  /* Landscape */
-  @media only screen 
-    and (min-device-width: 414px) 
-    and (max-device-width: 736px) 
-    and (-webkit-min-device-pixel-ratio: 3)
-    and (orientation: landscape) {
-      .upperNav ul {
-        max-width: 100vw;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(auto, 1fr));
-        a {
-          margin: 7vmin;
-        }
-      } 
-    }
-
-  /* ----------- iPhone X ----------- */
-
-  /* Portrait and Landscape */
-  @media only screen 
-    and (min-device-width: 375px) 
-    and (max-device-width: 812px) 
-    and (-webkit-min-device-pixel-ratio: 3) { 
-
-    }
-
-  /* Portrait */
-  @media only screen 
-    and (min-device-width: 375px) 
-    and (max-device-width: 812px) 
-    and (-webkit-min-device-pixel-ratio: 3)
-    and (orientation: portrait) {
-      .lowerNav {
-        bottom: 100px;
-        right: 40px;
-      } 
-    }
-
-  /* Landscape */
-  @media only screen 
-    and (min-device-width: 375px) 
-    and (max-device-width: 812px) 
-    and (-webkit-min-device-pixel-ratio: 3)
-    and (orientation: landscape) {
-      .upperNav ul {
-        max-width: 100vw;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(auto, 1fr));
-        a {
-          margin: 7vmin;
-        }
-      }
-    } 
 `;
 
 
 export default function Nav() {
-  // const { navigation } = useStaticQuery(graphql`
-  //   query {
-  //     navigation: allSanityLayoutHeader {
-  //       nodes {
-  //         id
-  //         title
-  //         links
-  //         mainalt
-  //         mainlogo {
-  //           asset {
-  //             id
-  //           }
-  //           ...ImageWithPreview
-  //         }
-  //         mobilebg {
-  //           asset {
-  //             id
-  //           }
-  //           ...ImageWithPreview
-  //         }
-  //       }
-  //     }
-  //   }
-  // `)
+  const { navigation } = useStaticQuery(graphql`
+    query {
+      navigation: allSanityNavigation {
+          nodes {
+            id
+            mainalt
+            mainlogo {
+              asset {
+                id
+              }
+            }
+            mobilebg {
+              asset {
+                id
+              }
+            }
+            links {
+              pagename
+              pagelink
+              _key
+            }
+          }
+        }
+      }
+  `)
 
-// const nodes = navigation.nodes;
+const nodes = navigation.nodes;
 const [checked, setChecked] = React.useState(false || '');
 
   return (
     <>
-      {/* {nodes.map((node) => ( */}
-        <div className="nodeParser" /* key={node.id} */>
+      {nodes.map((node) => (
+        <div className="nodeParser" key={node.id}>
           <NavStyles>
-            <div className="full">
-              <div className="maxWidth">
+            <div className="navImg full">
+              {/* <SanityImage 
+                {...node.mainlogo}
+                alt={node.mainalt}
+                style={{
+                  objectFit: 'cover',
+                  auto: 'format',
+                }}
+              /> */}
+            </div>
+            <div className="full navBG">
+              <div className="maxWidth center">
                 <nav>
-                  <ul>
-                    <Link to="/">
-                      <li>
-                        <span>Home</span>
-                      </li>
-                    </Link>
-                    <Link to="/about">
-                      <li>
-                        <span>About</span>
-                      </li>
-                    </Link>
-                    <Link to="/contact">
-                      <li>
-                        <span>Contact</span>
-                      </li>
-                    </Link>
-                    <Link to="/calendar">
-                      <li>
-                        <span>Calendar</span>
-                      </li>
-                    </Link>
-                    <Link to="/sermons">
-                      <li>
-                        <span>Sermons</span>
-                      </li>
-                    </Link>
+                  <ul className='inline center'>
+                    {node.links.map((link) => (
+                      <Link to={link.pagelink} key={link._key}>
+                        <li>
+                          <span>{link.pagename}</span>
+                        </li>
+                      </Link>
+                    ))}
                   </ul>
                 </nav>
               </div>
@@ -1021,69 +577,25 @@ const [checked, setChecked] = React.useState(false || '');
                 />
                 <span />
                 <span />
+                <span />
                 <div id="menu" className="menuContainer">
                   <nav className="upperNav">
                     <ul>
-                      <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                        <Link to="/" className="mobileLink">
-                          <li>
-                            <p>Home</p>
-                          </li>
-                        </Link>
-                      </button>
-                      <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                        <Link to="/about" className="mobileLink">
-                          <li>
-                            <p>About</p>
-                          </li>
-                        </Link>
-                      </button>
-                      <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                        <Link to="/contact" className="mobileLink">
-                          <li>
-                            <p>Contact</p>
-                          </li>
-                        </Link>
-                      </button>
-                      <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                        <Link to="/calendar" className="mobileLink">
-                          <li>
-                            <p>Calendar</p>
-                          </li>
-                        </Link>
-                      </button>
-                      <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                        <Link to="/sermons" className="mobileLink">
-                          <li>
-                            <p>Sermons</p>
-                          </li>
-                        </Link>
-                      </button>
+                      {node.links.map((link) => (
+                        <button 
+                          type="button" 
+                          onClick={
+                            () => {setChecked(old => !old)}
+                          }
+                          key={link._key}
+                        >
+                          <Link to={link.pagelink} className="mobileLink">
+                            <li>
+                              <p>{link.pagename}</p>
+                            </li>
+                          </Link>
+                        </button>
+                      ))}
                     </ul>
                   </nav>
                 </div>
@@ -1100,69 +612,25 @@ const [checked, setChecked] = React.useState(false || '');
                 />
                 <span />
                 <span />
+                <span />
                 <div id="menu" className="menuContainer">
                   <nav className="upperNav">
                     <ul>
-                    <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                        <Link to="/" className="mobileLink">
-                          <li>
-                            <p>Home</p>
-                          </li>
-                        </Link>
-                      </button>
-                      <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                        <Link to="/about" className="mobileLink">
-                          <li>
-                            <p>About</p>
-                          </li>
-                        </Link>
-                      </button>
-                      <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                        <Link to="/contact" className="mobileLink">
-                          <li>
-                            <p>Contact</p>
-                          </li>
-                        </Link>
-                      </button>
-                      <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                        <Link to="/calendar" className="mobileLink">
-                          <li>
-                            <p>Calendar</p>
-                          </li>
-                        </Link>
-                      </button>
-                      <button 
-                        type="button" 
-                        onClick={
-                          () => {setChecked(old => !old)}
-                        }
-                      >
-                        <Link to="/sermons" className="mobileLink">
-                          <li>
-                            <p>Sermons</p>
-                          </li>
-                        </Link>
-                      </button>
+                      {node.links.map((link) => (
+                        <button 
+                          type="button" 
+                          onClick={
+                            () => {setChecked(old => !old)}
+                          }
+                          key={link._key}
+                        >
+                          <Link to={link.pagelink} className="mobileLink">
+                            <li>
+                              <p>{link.pagename}</p>
+                            </li>
+                          </Link>
+                        </button>
+                      ))}
                     </ul>
                   </nav>
                 </div>
@@ -1170,7 +638,7 @@ const [checked, setChecked] = React.useState(false || '');
             </div>
           </MobileNavStyles>
         </div>
-      {/* ))} */}
+      ))} 
     </>
   );
 }

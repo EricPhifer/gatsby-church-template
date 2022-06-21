@@ -2,12 +2,12 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   :root {
-    --blue: #0064AD;
-    --gray: #818386;
-    --black: #221F1F;
-    --red: #FF0035;
-    --white: #FBF5F3;
-    --green: #6BBF59;
+    --blue: #3239FA;
+    --yellow: #FEF1C4;
+    --black: #000000;
+    --brown: #441C01;
+    --orange: #FF6305;
+    --green: #172116;
   }
   html {
     background-image: var(--white);
@@ -25,7 +25,6 @@ const GlobalStyles = createGlobalStyle`
   button {
     display: flex;
     max-width: 800px;
-    width: 100%;
     margin: 1.5rem auto;
     padding: 2rem 0;
     justify-content: center;
